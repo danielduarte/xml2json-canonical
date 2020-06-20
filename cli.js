@@ -10,11 +10,14 @@ const xml2json = opts => {
   opts = Object.assign({
     files: [],
     output: 'print',
+    pretty: false,
+    profile: 'strict',
   }, opts);
 
   opts.files.forEach(f => {
-    const jsObject = toJsonFromFileSync(f);
-    console.log(JSON.stringify(jsObject));
+    const jsObject = toJsonFromFileSync(f, opts.profile);
+    const json = opts.pretty ? JSON.stringify(jsObject, null, 2) : JSON.stringify(jsObject, null, 2);
+    console.log(json);
   });
 };
 

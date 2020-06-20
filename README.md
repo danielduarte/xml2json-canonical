@@ -81,7 +81,7 @@ npm i -g xml2json-canonical
 #### Use
 
 ```Shell
-xml2json file1.xml file2.xml [... more files]
+xml2json [--pretty] [--profile=strict|simple|compact] file1.xml file2.xml [... more files]
 ```
 
 ## API

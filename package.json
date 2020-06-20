@@ -1,6 +1,6 @@
 {
   "name": "xml2json-canonical",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "XML to JSON converter preserving everything from the original XML in a canonical JSON representation easy to work with - Node.js module and CLI tool",
   "main": "index.js",
   "scripts": {
