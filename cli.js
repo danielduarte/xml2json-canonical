@@ -16,7 +16,7 @@ const xml2json = opts => {
 
   opts.files.forEach(f => {
     const jsObject = toJsonFromFileSync(f, opts.profile);
-    const json = opts.pretty ? JSON.stringify(jsObject, null, 2) : JSON.stringify(jsObject, null, 2);
+    const json = opts.pretty ? JSON.stringify(jsObject, null, 2) : JSON.stringify(jsObject);
     console.log(json);
   });
 };
