@@ -4,12 +4,13 @@ An XML to JSON converter that preserves everything from the original XML in a ca
 
 ## Features
 
-- Conversion from XML to canonical JSON.
-- Conversion from canonical JSON to XML.
-- Available as a Node.js or Deno module.
-- CLI tool from the command line. [:construction_worker:**under dev**]
-- Configurable output
-- Conversion from strings or files, sync or async
+- [Conversion from XML to canonical JSON](#api).
+- [Conversion from canonical JSON to XML](#api).
+- [Conversion from strings or files, sync or async](#api).
+- [Configurable output](#options).
+- [CLI tool from the command line](#as-cli-console-tool).
+- [Available as a Node.js or Deno module](#as-a-module).
+
 
 ## Quickstart
 
@@ -17,7 +18,7 @@ An XML to JSON converter that preserves everything from the original XML in a ca
 
 #### Install
 
-```Bash
+```Shell
 npm i xml2json-canonical
 ```
 
@@ -73,13 +74,13 @@ This is a condensed output obtained using the profile `'compact'`. Check [other 
 
 #### Install globally
 
-```Bash
+```Shell
 npm i -g xml2json-canonical
 ```
 
 #### Use
 
-```Bash
+```Shell
 xml2json file1.xml file2.xml [... more files]
 ```
 
