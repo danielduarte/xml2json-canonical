@@ -1,15 +1,15 @@
 # xml2json-canonical :zap:
 
-XML to JSON converter preserving everything from the original XML in a canonical JSON representation easy to work with, modify, and convert back to XML.
+An XML to JSON converter that preserves everything from the original XML in a canonical JSON representation easy to work with, modify, and convert back to XML.
 
 ## Features
 
-- Converts XML to canonical JSON.
-- Converts back from canonical JSON to XML.
-- Can be used as a Node.js or Deno module.
-- Can be used as a CLI tool from your command line. [:construction_worker:**under dev**]
+- Conversion from XML to canonical JSON.
+- Conversion from canonical JSON to XML.
+- Available as a Node.js or Deno module.
+- CLI tool from the command line. [:construction_worker:**under dev**]
 - Configurable output
-- Convert directly from strings or files, sync or async
+- Conversion from strings or files, sync or async
 
 ## Quickstart
 
@@ -56,22 +56,22 @@ console.log(json);
 }
 ```
 
-This is a condensed output obtained using the profile `'compact'`. Check [the other profiles](#profiles).
+This is a condensed output obtained using the profile `'compact'`. Check [other profiles](#profiles).
 
 ## API
 
 | Function                     | Details                                                                                                                                              |
 |------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **toJson**(xmlStr)               | Converts an XML string into JSON. See options to configure conversions.                                                                              |
-| **toJsonFromFile**(filepath)     | Converts an XML file into JSON returning a Promise for async programming. See options to configure conversions.                                      |
-| **toJsonFromFileSync**(filepath) | Converts an XML file into JSON synchronously. See options to configure conversions.                                                                 |
-| **toXml**(jsObject)              | Converts a JavaScript object into XML. The object must be in the canonical XML format, that is the format returned by any of the previous functions. |
+| **toJson**(xmlStr)               | Converts an XML string into JSON. See [options](#options) to configure conversions.                                                                              |
+| **toJsonFromFile**(filepath)     | Converts an XML file into JSON returning a Promise for async programming. See [options](#options) to configure conversions.                                      |
+| **toJsonFromFileSync**(filepath) | Converts an XML file into JSON synchronously. See [options](#options) to configure conversions.                                                                 |
+| **toXml**(jsObject)              | Converts a JavaScript object into XML. The object must be in the canonical XML format, which is the returned format by any of the previous functions. |
 
 ## Options
 
-You can customize several details of the output (continue reading here), or just [GO TO ACTION](#profiles).
+You can customize several details of the output, or just [GO TO ACTION](#profiles).
 
-To customize the JSON output, all the function to convert from XML to JSON (`toJson`, `toJsonFromFile`, `toJsonFromFileSync`) have the same possible set of options as an object in the second parameter. None of them are mandatory and all have a default value.
+To customize the JSON output, all the functions to convert from XML to JSON (`toJson`, `toJsonFromFile`, `toJsonFromFileSync`) have the same possible set of options as an object in the second parameter. None of them are mandatory and all have a default value.
 
 ```JavaScript
 const json = toJson(xml, {
@@ -84,14 +84,14 @@ const json = toJson(xml, {
 });
 ```
 
-| Option | Details |
-|--|--|
-| **skipEmptyTexts** [_boolean_] | If `true` ignores text nodes formed only by whitespace characters (CR, LR, tabs and spaces). Defaults to `false`. |
-| **textNodesToStr** [_boolean_] | If `true` text nodes are returned simply as strings for easy manipulation. For purely canonical form, set it to `false`. Defaults to `false`. |
-| **extractOnlyChilds** [_boolean_] | If `true` elements with only one child node has that only child directly in the field `content` without having an array with that only element. For purely canonical form, set it to `false`. Defaults to `false`. |
-| **omitEmptyAttrs** [_boolean_] | If `true` elements with no attributes does not have the field `attrs`. If `false` the field `attrs` is included with an empty object (`attrs: {}`). For purely canonical form, set it to `false`. Defaults to `false`. |
-| **omitEmptyContent** [_boolean_] | If `true` elements with no children nodes does not have the field `content`. If `false` the field `content` is included with an empty array (`content: []`). For purely canonical form, set it to `false`. Defaults to `false`. |
-| **reportError** [_function: (msg: string)_=> {}] | Callback to receive parsing errors. If is executedon every error thrown passing an error message with the details. By default errors are printed out to the standard error output. To ignore errors set it to `() => {}`. |
+| Option | Default | Details |
+|--|--|--|
+| **skipEmptyTexts** [_boolean_] | `false` | If `true`, text nodes formed only by whitespace characters (CR, LR, tabs and spaces) are ignored. |
+| **textNodesToStr** [_boolean_] | `false` | If `true`, text nodes are returned as strings. If `false`, pure canonical form is preserved. |
+| **extractOnlyChilds** [_boolean_] | `false` | If `true`, elements with a single child node have that only child directly in the field `content` without having an array with that only element. If `false`, pure canonical form is preserved. |
+| **omitEmptyAttrs** [_boolean_] | `false` | If `true`, elements with no attributes omit the field `attrs`. Otherwise, the field `attrs` is included with an empty object (`attrs: {}`) preserving pure canonical form. |
+| **omitEmptyContent** [_boolean_] | `false` | If `true`, elements with no children nodes omit the field `content`. Otherwise the field `content` is included with an empty array (`content: []`) preserving pure canonical form. |
+| **reportError** [_function: (msg: string)_=> {}] | Errors are printed out to the standard error output | Callback to receive parsing errors. It is executed on every error passing a descriptive message. To ignore errors set it to `() => {}`. |
 
 
 ## Profiles
@@ -106,7 +106,7 @@ toJson(xml, 'simple');
 ```JavaScript
 const json = toJson(xml, 'compact');
 ```
-The most compact representation in JSON format. Take into account that this profile looses the text nodes that are purely composed by whitespace characters (LR, CR, tabs and spaces), which are in most cases not used. To keep those strings in the result, please use the default options (omitting the second parameter), or use another profile like `'strict'`. Also you can specify customized options instead of profiles as the second parameter and set `skipEmptyTexts: false`.
+The most compact representation in JSON format. Take into account that this profile looses the text nodes that are purely composed by whitespace characters (LR, CR, tabs and spaces), which are in most cases not used. To keep those strings in the result use the default options (omitting the second parameter), or use another profile like `'strict'`. Also you can specify customized options instead of profiles as the second parameter and set `skipEmptyTexts: false`.
 
 > Output:
 ```JavaScript
@@ -140,14 +140,14 @@ The most compact representation in JSON format. Take into account that this prof
 ```JavaScript
 const json = toJson(xml, 'simple');
 ```
-Similar to 'compact' but purely canonical, which makes easier to process, being sure that all fields are always present, and they are always of the same type.
+Similar to `'compact'` but purely canonical, which makes it easier to process.
 
-Here're some details:
+This profile ensures that all fields are always present, and they are always of the same type:
 
-- If an element does not have attributes, the field `attrs` is included anyways as `attrs: {}`.
-- If an element does not have children nodes, the field `content` is included anyways as `content: [],`.
-- If an element has only one child, it is returned in the field `contect` in an array (the same as if it would have many). So, instead of `content: { ... the node ... }`, it returns `content: [{ ... the node ... }]`.
-- Text nodes are not returned simple as a string like `'some text'`, but they are returned as a canonical node like `{ type: 'text', content: 'some text' }`.
+- Even when an element does not have attributes, the field `attrs` is present as `attrs: {}`.
+- Even when an element does not have children nodes, the field `content` is present as `content: [],`.
+- Even when an element has a single child, it is returned in the field `content` as an array element. So, instead of `content: { ... the node... }`, the result is `content: [{ ... the node... }]`.
+- Text nodes are always returned as canonical nodes like `{ type: 'text', content: 'some text' }` instead of returning a string like `'some text'`.
 
 > Output:
 ```JavaScript
@@ -180,13 +180,14 @@ Here're some details:
 }
 ```
 
-### Profile: 'strict' _(same as default)_
+### Profile: 'strict' _(default)_
 
 ```JavaScript
 const json = toJson(xml); // Omitted since it's the default profile
 ```
-Similar to 'simple' but includes also the text nodes that are purely whitespace characters.
-Useful if it's important for you to preserve XML indentation and values formed by spaces.
+Similar to `'simple'` but including the text nodes that are purely formed by whitespace characters.
+
+Useful to preserve XML indentation and values formed by only spaces.
 
 > Output:
 ```JavaScript
@@ -226,9 +227,9 @@ Useful if it's important for you to preserve XML indentation and values formed b
 
 ## Notes
 
-- Note that the outputs got are JavaScript objects for easy manipulation, which means that if you need actual JSON output, you have to call `JSON.stringity(...)` with the result.
+- Note that the resulting outputs are JavaScript objects for easy manipulation, which means that if you need the actual JSON string representation, you have to call `JSON.stringity(...)`.
 
-- When converting from XML to JSON **and back to XML**, in most of the cases the result is the original, except for some edge cases where the result is equivalent with slight differences:
+- When converting from XML to JSON and back to XML, in most cases the result is exactly the same as the original input, except for some edge cases where it is equivalent but with slight differences:
   - *Case 1*: Only one space between attributes is preserved: <code>&lt;elem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attr1="val1"&nbsp;&nbsp;&nbsp;attr2="val2"&nbsp;&nbsp;&nbsp;&gt;</code> is converted to `<elem attr1="val1" attr2="val2">`.
   - *Case 2*: Self-closing elements have always an space before close: `<elem/>` is converted to `<elem />`.
 
