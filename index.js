@@ -6,6 +6,30 @@
 const fs = require('fs');
 const sax = require('sax');
 
+const defaultOptions = {
+  skipEmptyTexts: false,
+  textNodesToStr: false,
+  extractOnlyChilds: false,
+  omitEmptyAttrs: false,
+  omitEmptyContent: false,
+  reportError: msg => {
+    console.error('Error:', msg);
+  },
+};
+
+const optProfiles = {
+  compact: {
+    skipEmptyTexts: true,
+    textNodesToStr: true,
+    extractOnlyChilds: true,
+    omitEmptyAttrs: true,
+    omitEmptyContent: true,
+  },
+  simple: {
+    skipEmptyTexts: true,
+  },
+  strict: defaultOptions
+};
 
 class Stack {
   constructor() {
@@ -74,18 +98,12 @@ const toXml = (json) => {
 
 
 const toJson = (xmlStr, options) => {
+  let userOptions = options;
+  if (typeof userOptions === 'string') {
+    userOptions = optProfiles[userOptions];
+  }
 
-  const defaultOptions = {
-    skipEmptyTexts: false,
-    textNodesToStr: false,
-    extractOnlyChilds: false,
-    omitEmptyAttrs: false,
-    omitEmptyContent: false,
-    reportError: msg => {
-      console.error('Error:', msg);
-    },
-  };
-  const opts = { ...defaultOptions, ...options };
+  const opts = { ...defaultOptions, ...userOptions };
 
   const strict = true; // If false, it parses in HTML mode
   const parser = sax.parser(strict);
