@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha"
   },
+  "bin": {
+    "xml2json": "cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danielduarte/xml2json-canonical.git"
@@ -29,7 +32,8 @@
     "sax": "^1.2.4"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "cli.js"
   ],
   "devDependencies": {
     "expect": "^26.0.1"

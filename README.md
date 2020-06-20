@@ -13,6 +13,16 @@ An XML to JSON converter that preserves everything from the original XML in a ca
 
 ## Quickstart
 
+### As a module
+
+#### Install
+
+```Bash
+npm i xml2json-canonical
+```
+
+#### Use
+
 ```JavaScript
 const { toJson } = require('xml2json-canonical');
 
@@ -57,6 +67,21 @@ console.log(json);
 ```
 
 This is a condensed output obtained using the profile `'compact'`. Check [other profiles](#profiles).
+
+
+### As CLI (console tool)
+
+#### Install globally
+
+```Bash
+npm i -g xml2json-canonical
+```
+
+#### Use
+
+```Bash
+xml2json file1.xml file2.xml [... more files]
+```
 
 ## API
 
