@@ -64,8 +64,8 @@ const toXml = (json) => {
 
   switch (json.type) {
     case 'xml': {
-      const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>';
-      return xmlHeader + json.content.map(child => toXml(child)).join('');
+      const xmlDecl = json.declaration !== null ? `<?xml ${json.declaration}?>` : '';
+      return xmlDecl + json.content.map(child => toXml(child)).join('');
     }
     case 'text':
       return json.content[0]
@@ -110,18 +110,20 @@ const toJson = (xmlStr, options) => {
   const stack = new Stack();
   let json = null;
 
-  // Event listeners:
-
-  parser.onerror = function (e) {
-    opts.reportError(e.message);
-  };
-
-  parser.onready = function () {
+  // This is not a parser event
+  const onstart = function () {
     const n = {
       type: 'xml',
+      declaration: null,
       content: [],
     };
     stack.push(n);
+  };
+
+  // --- Start: Event listeners
+
+  parser.onprocessinginstruction = function (d) {
+    stack.top().declaration = d.body;
   };
 
   parser.ontext = function (t) {
@@ -164,8 +166,8 @@ const toJson = (xmlStr, options) => {
       type: 'element',
       name: node.name,
       attrs: node.attributes,
-      content: [],
       selfClosing: node.isSelfClosing,
+      content: [],
     };
 
     if (opts.omitEmptyAttrs && Object.keys(n.attrs).length === 0) {
@@ -196,8 +198,14 @@ const toJson = (xmlStr, options) => {
     }
   };
 
-  parser.onready();
+  // --- End: Event listeners
 
+
+  parser.onerror = function (e) {
+    opts.reportError(e.message);
+  };
+
+  onstart();
   parser.write(xmlStr).close();
 
   return json;

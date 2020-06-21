@@ -8,7 +8,8 @@ function consolelog(...args) {
   console.log(util.inspect(...args, false, null, true));
 }
 
-const files = fs.readdirSync('./test/cases');
+const files = fs.readdirSync('./test/cases')
+  .filter(f => f.toLowerCase().endsWith('.xml'));
 
 describe('Test cases', function() {
   for (const f of files) {
@@ -34,9 +35,6 @@ describe('Test cases', function() {
       });
 
       it('Check XML against original', function() {
-        if (xml !=fileContents) {
-          consolelog(json);
-        }
         expect(xml).toEqual(fileContents);
       });
 

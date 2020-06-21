@@ -1,0 +1,10 @@
+<toys decade="80s" locale="US">
+    <toy>Transformers</toy>
+    <toy knowing="half the battle">
+        GI Joe
+    </toy>
+    <toy>
+        <name>He-man</name>
+        <description><![CDATA[<strong>Master of the Universe!</strong>]]></description>
+    </toy>
+</toys>
